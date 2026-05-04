@@ -1,26 +1,339 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<meta http-equiv='X-UA-Compatible' content='chrome=1'></meta>
-<meta http-equiv='Content-Type' content='text/html;charset=utf-8'></meta>
-<title>Mummy Mask</title>
-<script type='text/javascript' src='https://www.x3dom.org/download/x3dom.js'> </script>
-<link rel='stylesheet' type='text/css' href='https://www.x3dom.org/download/x3dom.css'/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DarFinder.ma | Portal inmobiliario en Marruecos</title>
+  <style>
+    :root {
+      --brand: #e2f248;
+      --brand-dark: #c7d632;
+      --bg: #f5f6f7;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #0f766e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .topbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .container {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 12px;
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      font-size: 1.2rem;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      border: 0;
+      background: var(--brand);
+      color: #111827;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--brand-dark); }
+
+    .hero {
+      background: linear-gradient(120deg, #f9facb 0%, #e6fffb 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-inner {
+      padding: 34px 0 28px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      max-width: 800px;
+    }
+
+    .search-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr auto;
+      gap: 10px;
+    }
+
+    .search-box input,
+    .search-box select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px;
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    .main {
+      padding: 24px 0 40px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+    }
+
+    .filters,
+    .listing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+
+    .filters {
+      padding: 16px;
+      height: fit-content;
+      position: sticky;
+      top: 76px;
+    }
+
+    .filters h3 {
+      margin: 0 0 14px;
+      font-size: 1rem;
+    }
+
+    .group { margin-bottom: 14px; }
+
+    .group label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .group select,
+    .group input {
+      width: 100%;
+      padding: 9px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .listings {
+      display: grid;
+      gap: 14px;
+    }
+
+    .listing-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 270px 1fr;
+    }
+
+    .listing-image {
+      min-height: 190px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .listing-content {
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .price {
+      font-weight: 800;
+      font-size: 1.35rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 0.93rem;
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.8rem;
+      background: #eef2ff;
+      color: #3730a3;
+      border-radius: 999px;
+      padding: 4px 8px;
+    }
+
+    @media (max-width: 930px) {
+      .main { grid-template-columns: 1fr; }
+      .filters { position: static; }
+      .search-box { grid-template-columns: 1fr; }
+      .listing-card { grid-template-columns: 1fr; }
+      .listing-image { height: 220px; }
+    }
+  </style>
 </head>
 <body>
-<h1>Mummy Mask</h1>
-<p>
-    Texto previo
-</p>
-<x3d width='800px' height='800px'>
-<scene>
-<Viewpoint position="0.00000 0.00000 10.00000" orientation="0.00000 0.00000 0.00000 0.00000" 
-	zNear="10.76984" zFar="32.09151" centerOfRotation="0.00000 0.00000 0.00000" fieldOfView="0.78540" description="defaultX3DViewpointNode"></Viewpoint>
-<inline url="https://raw.githubusercontent.com/aarontallon/MummyMask/refs/heads/main/mummyMask.x3d"> </inline>
-</scene>
-</x3d>
-<p>
-    Texto final
-</p>
-  </body>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="logo">Dar<span>Finder.ma</span></div>
+      <nav class="nav-links">
+        <span>Comprar</span>
+        <span>Alquilar</span>
+        <span>Obra nueva</span>
+        <span>Agencias</span>
+      </nav>
+      <button class="btn">Publicar anuncio</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <h1>Encuentra tu casa ideal en Marruecos</h1>
+      <p class="subtitle">Plataforma inspirada en Idealista para buscar pisos, villas, riads y locales en Casablanca, Rabat, Marrakech, Tánger y más.</p>
+      <form class="search-box">
+        <input type="text" placeholder="Ciudad, barrio o zona (ej. Gueliz, Agdal, Maarif)" />
+        <select>
+          <option>Tipo de inmueble</option>
+          <option>Piso</option>
+          <option>Villa</option>
+          <option>Riad</option>
+          <option>Local comercial</option>
+        </select>
+        <select>
+          <option>Precio máximo (MAD)</option>
+          <option>500 000 MAD</option>
+          <option>1 000 000 MAD</option>
+          <option>2 000 000 MAD</option>
+          <option>5 000 000 MAD</option>
+        </select>
+        <button class="btn" type="button">Buscar</button>
+      </form>
+    </div>
+  </section>
+
+  <main class="container main">
+    <aside class="filters">
+      <h3>Filtros</h3>
+      <div class="group">
+        <label>Operación</label>
+        <select>
+          <option>Compra</option>
+          <option>Alquiler</option>
+        </select>
+      </div>
+      <div class="group">
+        <label>Habitaciones mín.</label>
+        <select>
+          <option>1+</option>
+          <option>2+</option>
+          <option>3+</option>
+          <option>4+</option>
+        </select>
+      </div>
+      <div class="group">
+        <label>Superficie mínima (m²)</label>
+        <input type="number" placeholder="80" />
+      </div>
+      <div class="group">
+        <label>Características</label>
+        <select>
+          <option>Terraza</option>
+          <option>Ascensor</option>
+          <option>Parking</option>
+          <option>Piscina</option>
+        </select>
+      </div>
+      <button class="btn" style="width:100%">Aplicar filtros</button>
+    </aside>
+
+    <section>
+      <div class="results-header">
+        <strong>8.243 viviendas en Marruecos</strong>
+        <span>Ordenar por: más recientes</span>
+      </div>
+
+      <div class="listings">
+        <article class="listing-card">
+          <div class="listing-image" style="background-image:url('https://images.unsplash.com/photo-1560184897-ae75f418493e?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="listing-content">
+            <div class="price">1.850.000 MAD</div>
+            <div><strong>Villa en Californie, Casablanca</strong></div>
+            <div class="meta">4 hab. · 320 m² · Jardín · Garaje</div>
+            <div class="tags"><span class="tag">Destacado</span><span class="tag">Tour virtual</span></div>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-image" style="background-image:url('https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="listing-content">
+            <div class="price">920.000 MAD</div>
+            <div><strong>Piso en Agdal, Rabat</strong></div>
+            <div class="meta">2 hab. · 104 m² · 3ª planta · Ascensor</div>
+            <div class="tags"><span class="tag">Rebajado</span><span class="tag">Buena zona</span></div>
+          </div>
+        </article>
+
+        <article class="listing-card">
+          <div class="listing-image" style="background-image:url('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80')"></div>
+          <div class="listing-content">
+            <div class="price">13.500 MAD/mes</div>
+            <div><strong>Riad reformado en Medina, Marrakech</strong></div>
+            <div class="meta">3 hab. · 180 m² · Patio interior · Amueblado</div>
+            <div class="tags"><span class="tag">Alquiler</span><span class="tag">Centro histórico</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
 </html>
